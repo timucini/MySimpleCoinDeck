@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id(Plugins.androidApplication)
     kotlin(Plugins.kotlinAndroid)
@@ -5,6 +7,8 @@ plugins {
     id(Plugins.navigationSafeArgs)
     id(Plugins.daggerHilt)
 }
+
+val coinRankingApiKey: String = gradleLocalProperties(rootDir).getProperty("COIN_RANKING_API_KEY")
 
 android {
     compileSdkVersion(30)
@@ -25,6 +29,13 @@ android {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
+            )
+        }
+        forEach {
+            it.buildConfigField(
+                type = "String",
+                name = "COIN_RANKING_API_KEY",
+                value = "$coinRankingApiKey"
             )
         }
     }

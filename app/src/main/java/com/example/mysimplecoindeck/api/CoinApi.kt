@@ -9,19 +9,17 @@ import retrofit2.http.Path
 
 interface CoinApi {
     @Headers(
-        "x-rapidapi-key: d71beb2801msh159acefc2d2ad2bp135314jsncf4a8788e4f8",
         "x-rapidapi-host: coinranking1.p.rapidapi.com"
     )
     @GET("coins")
-    suspend fun getCoinsList() : Response<CoinsResponse>
+    suspend fun getCoinsList(): Response<CoinsResponse>
 
     @Headers(
-        "x-rapidapi-key: d71beb2801msh159acefc2d2ad2bp135314jsncf4a8788e4f8",
         "x-rapidapi-host: coinranking1.p.rapidapi.com"
     )
     @GET("coin/{id}")
     suspend fun getCoin(
         @Path("id")
         id: Int
-    ) : Response<CoinResponse>
+    ): Response<CoinResponse>
 }

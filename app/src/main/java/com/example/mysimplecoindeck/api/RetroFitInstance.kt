@@ -10,16 +10,17 @@ class RetroFitInstance {
     companion object {
         private val retrofit by lazy {
             val logging = HttpLoggingInterceptor()
+            val authInterceptor = CoinApiAuthInterceptor()
             logging.setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder()
+                .addInterceptor(authInterceptor)
                 .addInterceptor(logging)
                 .build()
             Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .client(client)
-                .build();
-
+                .build()
         }
         val api: CoinApi by lazy {
             retrofit.create(CoinApi::class.java)
