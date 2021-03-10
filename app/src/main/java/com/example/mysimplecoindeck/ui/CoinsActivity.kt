@@ -2,18 +2,19 @@ package com.example.mysimplecoindeck.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import com.example.mysimplecoindeck.R
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class CoinsActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: CoinsViewModel
+    private val viewModel: CoinsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        viewModel = ViewModelProvider(this).get(CoinsViewModel::class.java)
+        viewModel
     }
 }

@@ -1,8 +1,9 @@
 package com.example.mysimplecoindeck.repository
 
 import com.example.mysimplecoindeck.api.RetroFitInstance
+import javax.inject.Inject
 
-class CoinRepository(
+class CoinRepository @Inject constructor(
 ) {
     suspend fun getCoins() = RetroFitInstance.api.getCoinsList()
 
