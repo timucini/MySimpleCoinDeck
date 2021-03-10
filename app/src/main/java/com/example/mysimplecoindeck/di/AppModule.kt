@@ -1,11 +1,11 @@
 package com.example.mysimplecoindeck.di
 
 import com.example.mysimplecoindeck.repository.CoinRepository
+import com.example.mysimplecoindeck.repository.CoinRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -14,6 +14,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    @Named("repository")
-    fun provideRepository() = CoinRepository()
+    fun provideCoinRepository(coinRepositoryImpl: CoinRepositoryImpl): CoinRepository =
+        coinRepositoryImpl
 }

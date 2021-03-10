@@ -1,11 +1,11 @@
 package com.example.mysimplecoindeck.repository
 
-import com.example.mysimplecoindeck.api.RetroFitInstance
-import javax.inject.Inject
+import com.example.mysimplecoindeck.models.CoinResponse
+import com.example.mysimplecoindeck.models.CoinsResponse
+import retrofit2.Response
 
-class CoinRepository @Inject constructor(
-) {
-    suspend fun getCoins() = RetroFitInstance.api.getCoinsList()
+interface CoinRepository {
+    suspend fun getCoins(): Response<CoinsResponse>
 
-    suspend fun getCoin(id: Int) = RetroFitInstance.api.getCoin(id)
+    suspend fun getCoin(id: Int): Response<CoinResponse>
 }

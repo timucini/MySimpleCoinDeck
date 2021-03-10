@@ -3,8 +3,10 @@ package com.example.mysimplecoindeck.api
 import com.example.mysimplecoindeck.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
-class CoinApiAuthInterceptor : Interceptor {
+
+class CoinApiAuthInterceptor @Inject constructor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val apiKey = BuildConfig.COIN_RANKING_API_KEY
         val original = chain.request();
