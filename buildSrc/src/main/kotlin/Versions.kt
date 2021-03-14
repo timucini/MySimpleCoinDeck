@@ -1,6 +1,6 @@
 object Versions {
     const val kotlin = "1.4.31"
-    const val androidGradlePlugin = "4.2.0-beta06"
+    const val androidGradlePlugin = "4.1.2"
     const val coroutines = "1.4.2"
 
 
@@ -43,5 +43,6 @@ object Versions {
     const val truth = "1.1.2"
     const val barista = "3.7.0"
 
+    const val picasso = "2.5.2"
 
 }

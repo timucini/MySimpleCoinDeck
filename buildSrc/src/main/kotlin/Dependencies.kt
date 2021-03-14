@@ -82,4 +82,5 @@ object Dependencies {
     const val junit = "junit:junit:${Versions.junit}"
     const val truth = "com.google.truth:truth:${Versions.truth}"
     const val barista = "com.schibsted.spain:barista:${Versions.barista}"
+    const val picasso = "com.squareup.picasso:picasso:${Versions.picasso}"
 }

@@ -25,7 +25,7 @@ data class Coin(
     val slug: String,
     val socials: List<Social>,
     val symbol: String,
-    val totalSupply: Double,
+    val totalSupply: Double?,
     val type: String,
     val uuid: String,
     val volume: Long,

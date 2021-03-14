@@ -99,4 +99,7 @@ dependencies {
     androidTestImplementation(Dependencies.AndroidX.Test.junit)
     androidTestImplementation(Dependencies.Espresso.core)
     androidTestImplementation(Dependencies.Espresso.contrib)
+
+    //picasso
+    implementation(Dependencies.picasso)
 }

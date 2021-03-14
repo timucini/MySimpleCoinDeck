@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/coins_news_graph"
+    app:startDestination="@id/CoinRankingFragment">
+
+    <fragment
+        android:id="@+id/CoinRankingFragment"
+        android:name="com.example.mysimplecoindeck.ui.fragments.CoinsRankingFragment"
+        android:label="CoinRankingFragment">
+
+    </fragment>
+</navigation>
