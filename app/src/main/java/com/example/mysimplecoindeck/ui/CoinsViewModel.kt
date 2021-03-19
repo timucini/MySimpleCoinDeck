@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.mysimplecoindeck.models.CoinsResponse
 import com.example.mysimplecoindeck.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.lang.Exception
@@ -27,9 +28,10 @@ class CoinsViewModel @Inject constructor(
 
     private fun getCoins() = viewModelScope.launch {
         try {
-            val response = repository.getCoins()
-            coinsList.postValue(Resource.Success(response))
-            Log.d("API-Test passed",response.body()?.status.toString())
+            repository.coinList.collect{ coinsResponse ->
+                coinsList.postValue(Resource.Success(coinsResponse))
+                Log.d("API-Test passed",coinsResponse.body()?.status.toString())
+            }
         } catch (ex: Exception) {
             Log.d("API-Test","error while call api: ${ex.message}")
         }

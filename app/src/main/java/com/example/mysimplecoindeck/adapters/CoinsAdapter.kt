@@ -1,5 +1,6 @@
 package com.example.mysimplecoindeck.adapters
 
+import android.graphics.Color
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.bumptech.glide.Glide
 import com.example.mysimplecoindeck.R
 import com.example.mysimplecoindeck.databinding.ActivityMainBinding
 import com.example.mysimplecoindeck.databinding.CoinRankingPreviewBinding
 import com.example.mysimplecoindeck.models.Coin
-import com.squareup.picasso.Picasso
+import com.example.mysimplecoindeck.utils.GlideApp
+import java.math.RoundingMode
 
 class CoinsAdapter: RecyclerView.Adapter<CoinsAdapter.CoinsViewHolder>() {
 
@@ -43,14 +47,11 @@ class CoinsAdapter: RecyclerView.Adapter<CoinsAdapter.CoinsViewHolder>() {
         val coin = differ.currentList[position]
         coin.let {
             holder.binding.tvCoinName.text = it.name
-            holder.binding.tvCoinPrice.text = it.price
-            holder.binding.tvCoinMarketCap.text = it.marketCap.toString()
+            holder.binding.tvCoinPrice.text = it.price.toBigDecimal().setScale(2,RoundingMode.HALF_UP).toString() + "$"
+            holder.binding.tvChange.text = it.change.toString() + "%"
+            holder.binding.tvChange.setTextColor(if (it.change >= 0 ) Color.GREEN else Color.RED)
             holder.binding.tvSymbol.text = it.symbol
-            Picasso.with(holder.itemView.context)
-                .load(Uri.parse(it.iconUrl))
-                .resize(25,25)
-                .centerCrop()
-                .into(holder.binding.ivIcon)
+            holder.binding.ivIcon.load(it.iconUrl)
         }
     }
 

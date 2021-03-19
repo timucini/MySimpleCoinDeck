@@ -43,6 +43,9 @@ object Versions {
     const val truth = "1.1.2"
     const val barista = "3.7.0"
 
-    const val picasso = "2.5.2"
+    //coil
+    const val coil = "1.1.1"
+    const val coilSVG = "1.1.1"
+
 
 }

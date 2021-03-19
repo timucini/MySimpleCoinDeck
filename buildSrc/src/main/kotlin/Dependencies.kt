@@ -78,9 +78,14 @@ object Dependencies {
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     }
 
+    object Coil {
+        const val coil = "io.coil-kt:coil:${Versions.coil}"
+        const val coilSvg = "io.coil-kt:coil-svg:${Versions.coilSVG}"
+    }
+
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     const val junit = "junit:junit:${Versions.junit}"
     const val truth = "com.google.truth:truth:${Versions.truth}"
     const val barista = "com.schibsted.spain:barista:${Versions.barista}"
-    const val picasso = "com.squareup.picasso:picasso:${Versions.picasso}"
+
 }

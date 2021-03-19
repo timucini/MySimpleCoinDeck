@@ -100,6 +100,8 @@ dependencies {
     androidTestImplementation(Dependencies.Espresso.core)
     androidTestImplementation(Dependencies.Espresso.contrib)
 
-    //picasso
-    implementation(Dependencies.picasso)
+    //Coil - Image Loading
+    implementation(Dependencies.Coil.coil)
+    implementation(Dependencies.Coil.coilSvg)
+
 }
