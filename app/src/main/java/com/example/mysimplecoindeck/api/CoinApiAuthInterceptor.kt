@@ -12,7 +12,7 @@ class CoinApiAuthInterceptor @Inject constructor() : Interceptor {
         val original = chain.request();
 
         val request = original.newBuilder()
-            .header("x-rapidapi-key", apiKey)
+            .header("x-access-token", apiKey)
             .method(method = original.method, body = original.body)
             .build()
 

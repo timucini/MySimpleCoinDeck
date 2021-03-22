@@ -45,6 +45,4 @@ object ApiModule {
     @Provides
     fun provideCoinApi(retrofit: Retrofit): CoinApi = retrofit.create(CoinApi::class.java)
 
-    @Provides
-    fun provideCoinRemoteDataSource(coinApi: CoinApi): CoinRemoteDataSource = CoinRemoteDataSource(coinApi)
 }

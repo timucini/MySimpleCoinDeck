@@ -8,5 +8,17 @@
         android:name="com.example.mysimplecoindeck.ui.fragments.CoinsRankingFragment"
         android:label="CoinRankingFragment">
 
+        <action
+            android:id="@+id/action_CoinRankingFragment_to_SingleCoinFragment"
+            app:destination="@id/SingleCoinFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/SingleCoinFragment"
+        android:name="com.example.mysimplecoindeck.ui.fragments.SingleCoinFragment"
+        android:label="SingleCoinFragment">
+        <argument
+            android:name="Uuid"
+            app:argType="string" />
     </fragment>
 </navigation>

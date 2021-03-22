@@ -5,14 +5,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mysimplecoindeck.R
 import com.example.mysimplecoindeck.adapters.CoinsAdapter
 import com.example.mysimplecoindeck.databinding.FragmentCoinsRankingBinding
 import com.example.mysimplecoindeck.ui.CoinsViewModel
-import com.example.mysimplecoindeck.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class CoinsRankingFragment : Fragment(R.layout.fragment_coins_ranking) {
@@ -26,20 +27,28 @@ class CoinsRankingFragment : Fragment(R.layout.fragment_coins_ranking) {
         binding = FragmentCoinsRankingBinding.bind(view)
         setupRecyclerView()
 
-        viewModel.coinsList.observe(viewLifecycleOwner, { response ->
-            when(response) {
-                is Resource.Success -> {
-                    response.data?.let { coinsListResponse ->
-                        coinsAdapter.differ.submitList(coinsListResponse.body()?.data?.coins?.sortedByDescending { it.marketCap })
+        lifecycleScope.launchWhenStarted {
+            viewModel.uiState.collect {
+                when(it) {
+                    is CoinsViewModel.CoinsListUiState.Success -> {
+                        it.coins.let { coinsResponse ->
+                            coinsAdapter.differ.submitList(coinsResponse.body()?.data?.coins?.sortedBy { coin -> coin.rank })
+                        }
                     }
-                }
-                is Resource.Error -> {
-                    response.message?.let { message ->
-                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG).show()
+                    is CoinsViewModel.CoinsListUiState.Error -> {
+                        it.exception?.let { message ->
+                            Toast.makeText(activity,"An error occured: $message", Toast.LENGTH_LONG ).show()
+                        }
                     }
+                    else -> Unit
                 }
             }
-        })
+        }
+        coinsAdapter.setOnClickListener {
+            findNavController().navigate(
+                    CoinsRankingFragmentDirections.actionCoinRankingFragmentToSingleCoinFragment(it)
+            )
+        }
     }
 
     private fun setupRecyclerView() {

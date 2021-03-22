@@ -6,6 +6,7 @@ plugins {
     kotlin(Plugins.kotlinKapt)
     id(Plugins.navigationSafeArgs)
     id(Plugins.daggerHilt)
+    id("kotlin-android")
 }
 
 val coinRankingApiKey: String = gradleLocalProperties(rootDir).getProperty("COIN_RANKING_API_KEY")
@@ -68,6 +69,8 @@ dependencies {
     // Room
     implementation(Dependencies.AndroidX.roomKtx)
     implementation(Dependencies.AndroidX.roomRuntime)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt(Dependencies.AndroidX.roomCompiler)
 
     // Coroutines
