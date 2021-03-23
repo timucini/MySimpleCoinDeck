@@ -3,7 +3,6 @@ package com.example.mysimplecoindeck.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.example.mysimplecoindeck.R
 import com.example.mysimplecoindeck.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
