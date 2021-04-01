@@ -11,6 +11,12 @@
         <action
             android:id="@+id/action_CoinRankingFragment_to_SingleCoinFragment"
             app:destination="@id/SingleCoinFragment" />
+        <action
+            android:id="@+id/action_CoinRankingFragment_to_SearchCoinFragment"
+            app:destination="@id/SearchCoinFragment" />
+        <action
+            android:id="@+id/action_CoinRankingFragment_to_PortfolioFragment"
+            app:destination="@id/PortfolioFragment" />
     </fragment>
 
     <fragment
@@ -20,5 +26,27 @@
         <argument
             android:name="Uuid"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/SearchCoinFragment"
+        android:name="com.example.mysimplecoindeck.ui.fragments.SearchCoinFragment"
+        android:label="SearchCoinFragment"
+        >
+        <action
+            android:id="@+id/action_SearchCoinFragment_to_SingleCoinFragment"
+            app:destination="@id/SingleCoinFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/PortfolioFragment"
+        android:name="com.example.mysimplecoindeck.ui.fragments.PortfolioFragment"
+        android:label="PortfolioFragment">
+        <action
+            android:id="@+id/action_PortfolioFragment_to_SingleCoinFragment"
+            app:destination="@id/SingleCoinFragment" />
+        <action
+            android:id="@+id/action_PortfolioFragment_to_SearchCoinFragment"
+            app:destination="@id/SearchCoinFragment" />
     </fragment>
 </navigation>

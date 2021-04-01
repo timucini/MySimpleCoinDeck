@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.example.mysimplecoindeck.repository.CoinRepository
 import androidx.lifecycle.viewModelScope
 import com.example.mysimplecoindeck.models.CoinsResponse
+import com.example.mysimplecoindeck.models.dbModels.CoinPortfolioEntity
+import com.example.mysimplecoindeck.models.searchSuggestions.SearchResponse
 import com.example.mysimplecoindeck.models.singleCoin.CoinResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +27,12 @@ class CoinsViewModel @Inject constructor(
 
     private val _uiCoinDetailState = MutableStateFlow<CoinDetailUiState>(CoinDetailUiState.Empty)
     val uiCoinDetailState: StateFlow<CoinDetailUiState> = _uiCoinDetailState
+
+    private val _uiSearchState = MutableStateFlow<SearchUiState>(SearchUiState.Empty)
+    val uiSearchState: StateFlow<SearchUiState> = _uiSearchState
+
+    private val _uiPortfolioState = MutableStateFlow<PortfolioUiState>(PortfolioUiState.Empty)
+    val uiPortfolioState: StateFlow<PortfolioUiState> = _uiPortfolioState
 
     init {
         viewModelScope.launch {
@@ -54,6 +62,47 @@ class CoinsViewModel @Inject constructor(
         }
     }
 
+    fun getSuggestedCoins(query: String) {
+        viewModelScope.launch {
+            repository.getSearchSuggestions(query)
+                .catch { exception ->
+                    _uiSearchState.value = SearchUiState.Error(exception)
+                    Log.d("API-Test","error while call api: ${exception.message}")
+                }
+                .collect{ response ->
+                    _uiSearchState.value = SearchUiState.Success(response)
+                    Log.d("API-Test passed",response.body()?.status.toString())
+                }
+        }
+    }
+
+    fun getPortfolio() {
+        viewModelScope.launch {
+            repository.getPortfolio()
+                    .catch { exception ->
+                        _uiPortfolioState.value = PortfolioUiState.Error(exception)
+                        Log.d("Portfolio-DB","error while getting Portfolio: ${exception.message}")
+                    }
+                    .collect{ response ->
+                        _uiPortfolioState.value = PortfolioUiState.Success(response)
+                        Log.d("Portfolio-DB:", "Successfully got portfolio")
+                    }
+        }
+    }
+
+    fun insertCoinToPortfolio(coinPortfolioEntity: CoinPortfolioEntity) {
+        viewModelScope.launch {
+            repository.upsert(coinPortfolioEntity)
+        }
+    }
+
+    fun deleteCoinFromPortfolio(coinPortfolioEntity: CoinPortfolioEntity) {
+        viewModelScope.launch {
+            repository.delete(coinPortfolioEntity)
+        }
+    }
+
+
     sealed class CoinsListUiState {
         data class Success(val coins: Response<CoinsResponse>): CoinsListUiState()
         data class Error(val exception: Throwable): CoinsListUiState()
@@ -64,5 +113,17 @@ class CoinsViewModel @Inject constructor(
         data class Success(val coins: Response<CoinResponse>): CoinDetailUiState()
         data class Error(val exception: Throwable): CoinDetailUiState()
         object Empty : CoinDetailUiState()
+    }
+
+    sealed class SearchUiState {
+        data class Success(val coinSuggestions: Response<SearchResponse>): SearchUiState()
+        data class Error(val exception: Throwable): SearchUiState()
+        object Empty : SearchUiState()
+    }
+
+    sealed class PortfolioUiState {
+        data class Success(val portfolio: List<CoinPortfolioEntity>): PortfolioUiState()
+        data class Error(val exception: Throwable): PortfolioUiState()
+        object Empty : PortfolioUiState()
     }
 }

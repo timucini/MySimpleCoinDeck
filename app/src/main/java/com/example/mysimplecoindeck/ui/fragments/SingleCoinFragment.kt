@@ -9,7 +9,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.mysimplecoindeck.R
 import com.example.mysimplecoindeck.databinding.FragmentCoinDetailBinding
+import com.example.mysimplecoindeck.models.dbModels.CoinPortfolioEntity
+import com.example.mysimplecoindeck.models.singleCoin.Coin
 import com.example.mysimplecoindeck.ui.CoinsViewModel
+import com.example.mysimplecoindeck.ui.dialogs.AddCoinDialog
+import com.example.mysimplecoindeck.ui.dialogs.AddDialogListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.math.RoundingMode
@@ -19,6 +23,7 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
     private val viewModel: CoinsViewModel by viewModels()
     private lateinit var binding: FragmentCoinDetailBinding
     private val args: SingleCoinFragmentArgs by navArgs()
+    private lateinit var coin: Coin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,16 +35,19 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
                     is CoinsViewModel.CoinDetailUiState.Success -> {
                         it.coins.let { coinsDetailResponse ->
                              coinsDetailResponse.body()?.data?.coin.let {
-                                 coin ->
-                                 if (coin != null) {
-                                     binding.tvCoinDetailTitle.text = coin.name
-                                     binding.tvCoinDetailPrice.text = coin.price.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toString()
-                                     binding.tvCoinDetailBtcPrice.text = coin.btcPrice
-                                     binding.tvCoinDetailRank.text = coin.rank.toString()
-                                     binding.tvCoinDetailCirculatingSupply.text = coin.supply.circulating
-                                     binding.tvCoinDetailAllTimeHigh.text = coin.allTimeHigh.price.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toString()
-                                     binding.tvCoinDetailMarketCap.text = coin.marketCap.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toString()
+                                 coinResponse ->
+                                 if (coinResponse != null) {
+                                     coin = coinResponse
                                  }
+                                     with(binding) {
+                                         tvCoinDetailTitle.text = coin.name
+                                         tvCoinDetailPrice.text = coin.price.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toString()
+                                         tvCoinDetailBtcPrice.text = coin.btcPrice
+                                         tvCoinDetailRank.text = coin.rank.toString()
+                                         tvCoinDetailCirculatingSupply.text = coin.supply.circulating
+                                         tvCoinDetailAllTimeHigh.text = coin.allTimeHigh.price.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toString()
+                                         tvCoinDetailMarketCap.text = coin.marketCap.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toString()
+                                     }
                             }
                         }
                     }
@@ -52,5 +60,13 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
                 }
             }
         }
+        binding.fabAddCoin.setOnClickListener {
+            AddCoinDialog(context,
+                        object: AddDialogListener {
+                            override fun onAddButtonClicked(item: CoinPortfolioEntity) {
+                                viewModel.insertCoinToPortfolio(item)
+                            }
+                        },coin).show()
+            }
     }
 }

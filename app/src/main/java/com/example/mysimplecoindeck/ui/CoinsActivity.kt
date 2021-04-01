@@ -1,9 +1,15 @@
 package com.example.mysimplecoindeck.ui
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.example.mysimplecoindeck.R
 import com.example.mysimplecoindeck.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -18,5 +24,22 @@ class CoinsActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        val navController = findNavController(R.id.newNavHostFragment)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when(destination.id) {
+                R.id.SingleCoinFragment -> hideBottomNav()
+                else -> showBottomNav()
+            }
+        }
+        bottomNavigationView.setupWithNavController(navController)
+    }
+    private fun showBottomNav() {
+        binding.bottomNavigationView.visibility = View.VISIBLE
+    }
+    private fun hideBottomNav() {
+        binding.bottomNavigationView.visibility = View.GONE
     }
 }
