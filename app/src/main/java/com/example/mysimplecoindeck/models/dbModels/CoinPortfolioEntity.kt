@@ -3,7 +3,6 @@ package com.example.mysimplecoindeck.models.dbModels
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
-import java.math.BigDecimal
 
 @Entity(
         tableName = "CoinEntities"

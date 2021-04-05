@@ -1,7 +1,6 @@
 package com.example.mysimplecoindeck.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -10,28 +9,25 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mysimplecoindeck.R
 import com.example.mysimplecoindeck.adapters.PortfolioAdapter
-import com.example.mysimplecoindeck.adapters.SearchAdapter
 import com.example.mysimplecoindeck.databinding.FragmentPortfolioBinding
-import com.example.mysimplecoindeck.databinding.FragmentSearchCoinBinding
-import com.example.mysimplecoindeck.models.dbModels.CoinPortfolioEntity
 import com.example.mysimplecoindeck.ui.CoinsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
-import java.math.RoundingMode
 
 @AndroidEntryPoint
 class PortfolioFragment: Fragment(R.layout.fragment_portfolio) {
     private val viewModel: CoinsViewModel by viewModels()
     private lateinit var binding: FragmentPortfolioBinding
     private lateinit var portfolioAdapter: PortfolioAdapter
+    private var uiPortfolioStateJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPortfolioBinding.bind(view)
         setupRecyclerView()
         viewModel.getPortfolio()
-        lifecycleScope.launchWhenStarted {
+        uiPortfolioStateJob = lifecycleScope.launchWhenStarted {
             viewModel.uiPortfolioState.collect {
                 when(it) {
                     is CoinsViewModel.PortfolioUiState.Success -> {
@@ -40,7 +36,7 @@ class PortfolioFragment: Fragment(R.layout.fragment_portfolio) {
                         }
                     }
                     is CoinsViewModel.PortfolioUiState.Error -> {
-                        it.exception?.let { message ->
+                        it.exception.let { message ->
                             Toast.makeText(activity,"An error occured: $message", Toast.LENGTH_LONG ).show()
                         }
                     }
@@ -48,6 +44,11 @@ class PortfolioFragment: Fragment(R.layout.fragment_portfolio) {
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        uiPortfolioStateJob?.cancel()
+        super.onStop()
     }
 
     private fun setupRecyclerView() {

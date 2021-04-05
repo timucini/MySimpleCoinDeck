@@ -1,6 +1,5 @@
 package com.example.mysimplecoindeck.ui
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View

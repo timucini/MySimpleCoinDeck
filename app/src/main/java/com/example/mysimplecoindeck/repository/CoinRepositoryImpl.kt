@@ -25,7 +25,7 @@ class CoinRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun coinDetail(uuid: String): Flow<Response<CoinResponse>> = flow {
+    override suspend fun coinDetail(uuid: String): Flow<Response<CoinResponse>> = flow {
         while (true) {
             val coinDetail = coinApi.getCoin(uuid)
             emit(coinDetail)
@@ -33,18 +33,18 @@ class CoinRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getSearchSuggestions(query: String): Flow<Response<SearchResponse>> = flow {
+    override suspend fun getSearchSuggestions(query: String): Flow<Response<SearchResponse>> = flow {
         while(true) {
             val searchSuggestions = coinApi.getSearchSuggestions(query)
             emit(searchSuggestions)
-            delay(Constants.SEARCH_QUERY_TIME_DELAY)
+            delay(Constants.REFRESHINTERVALMS)
         }
     }
     override suspend fun upsert(portfolioEntity: CoinPortfolioEntity) = portfolioDao.upsert(portfolioEntity)
 
     override suspend fun delete(portfolioEntity: CoinPortfolioEntity) = portfolioDao.deletePortfolioCoin(portfolioEntity)
 
-    override suspend fun getPortfolio(): Flow<List<CoinPortfolioEntity>> = flow {
+    override fun getPortfolio(): Flow<List<CoinPortfolioEntity>> = flow {
         while(true) {
             val portfolio = portfolioDao.getAllPortfolioCoins()
             emit(portfolio)

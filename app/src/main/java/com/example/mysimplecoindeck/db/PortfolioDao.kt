@@ -6,11 +6,11 @@ import com.example.mysimplecoindeck.models.dbModels.CoinPortfolioEntity
 @Dao
 interface PortfolioDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsert(coinPortfolioEntity: CoinPortfolioEntity)
+    suspend fun upsert(coinPortfolioEntity: CoinPortfolioEntity)
 
     @Query("SELECT * FROM CoinEntities")
-    fun getAllPortfolioCoins(): List<CoinPortfolioEntity>
+    suspend fun getAllPortfolioCoins(): List<CoinPortfolioEntity>
 
     @Delete
-    fun deletePortfolioCoin(coinPortfolioEntity: CoinPortfolioEntity)
+    suspend fun deletePortfolioCoin(coinPortfolioEntity: CoinPortfolioEntity)
 }

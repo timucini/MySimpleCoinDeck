@@ -1,7 +1,6 @@
 package com.example.mysimplecoindeck.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -15,8 +14,8 @@ import com.example.mysimplecoindeck.databinding.FragmentCoinDetailBinding
 import com.example.mysimplecoindeck.models.dbModels.CoinPortfolioEntity
 import com.example.mysimplecoindeck.models.singleCoin.Coin
 import com.example.mysimplecoindeck.ui.CoinsViewModel
-import com.google.android.material.dialog.MaterialDialogs
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import java.math.RoundingMode
 
@@ -26,12 +25,13 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
     private lateinit var binding: FragmentCoinDetailBinding
     private val args: SingleCoinFragmentArgs by navArgs()
     private lateinit var coin: Coin
+    private var uiDetailStateJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCoinDetailBinding.bind(view)
         viewModel.getCoinDetails(args.Uuid)
-        lifecycleScope.launchWhenStarted {
+        uiDetailStateJob = lifecycleScope.launchWhenStarted {
             viewModel.uiCoinDetailState.collect {
                 when(it) {
                     is CoinsViewModel.CoinDetailUiState.Success -> {
@@ -54,7 +54,7 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
                         }
                     }
                     is CoinsViewModel.CoinDetailUiState.Error -> {
-                        it.exception?.let { message ->
+                        it.exception.let { message ->
                             Toast.makeText(activity,"An error occured: $message", Toast.LENGTH_LONG ).show()
                         }
                     }
@@ -76,5 +76,10 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        uiDetailStateJob?.cancel()
+        super.onStop()
     }
 }

@@ -13,6 +13,7 @@ import com.example.mysimplecoindeck.adapters.CoinsAdapter
 import com.example.mysimplecoindeck.databinding.FragmentCoinsRankingBinding
 import com.example.mysimplecoindeck.ui.CoinsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -21,13 +22,14 @@ class CoinsRankingFragment : Fragment(R.layout.fragment_coins_ranking) {
     private val viewModel: CoinsViewModel by viewModels()
     private lateinit var coinsAdapter: CoinsAdapter
     private lateinit var binding: FragmentCoinsRankingBinding
+    private var uiStateJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCoinsRankingBinding.bind(view)
         setupRecyclerView()
 
-        lifecycleScope.launchWhenStarted {
+        uiStateJob = lifecycleScope.launchWhenStarted {
             viewModel.uiState.collect {
                 when(it) {
                     is CoinsViewModel.CoinsListUiState.Success -> {
@@ -36,7 +38,7 @@ class CoinsRankingFragment : Fragment(R.layout.fragment_coins_ranking) {
                         }
                     }
                     is CoinsViewModel.CoinsListUiState.Error -> {
-                        it.exception?.let { message ->
+                        it.exception.let { message ->
                             Toast.makeText(activity,"An error occured: $message", Toast.LENGTH_LONG ).show()
                         }
                     }
@@ -49,6 +51,11 @@ class CoinsRankingFragment : Fragment(R.layout.fragment_coins_ranking) {
                     CoinsRankingFragmentDirections.actionCoinRankingFragmentToSingleCoinFragment(it)
             )
         }
+    }
+
+    override fun onStop() {
+        uiStateJob?.cancel()
+        super.onStop()
     }
 
     private fun setupRecyclerView() {
