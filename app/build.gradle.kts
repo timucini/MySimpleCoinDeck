@@ -103,4 +103,7 @@ dependencies {
     implementation(Dependencies.Coil.coil)
     implementation(Dependencies.Coil.coilSvg)
 
+    // Material Dialogs
+    implementation(Dependencies.materialDialogs)
+
 }

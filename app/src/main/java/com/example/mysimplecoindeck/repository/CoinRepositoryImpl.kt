@@ -44,7 +44,7 @@ class CoinRepositoryImpl @Inject constructor(
 
     override suspend fun delete(portfolioEntity: CoinPortfolioEntity) = portfolioDao.deletePortfolioCoin(portfolioEntity)
 
-    override fun getPortfolio(): Flow<List<CoinPortfolioEntity>> = flow {
+    override suspend fun getPortfolio(): Flow<List<CoinPortfolioEntity>> = flow {
         while(true) {
             val portfolio = portfolioDao.getAllPortfolioCoins()
             emit(portfolio)

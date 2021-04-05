@@ -47,5 +47,8 @@ object Versions {
     const val coil = "1.1.1"
     const val coilSVG = "1.1.1"
 
+    // Material Dialogs
+    const val materialDialogs = "3.3.0"
+
 
 }

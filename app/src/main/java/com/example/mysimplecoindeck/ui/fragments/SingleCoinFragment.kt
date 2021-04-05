@@ -1,19 +1,21 @@
 package com.example.mysimplecoindeck.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.input
 import com.example.mysimplecoindeck.R
 import com.example.mysimplecoindeck.databinding.FragmentCoinDetailBinding
 import com.example.mysimplecoindeck.models.dbModels.CoinPortfolioEntity
 import com.example.mysimplecoindeck.models.singleCoin.Coin
 import com.example.mysimplecoindeck.ui.CoinsViewModel
-import com.example.mysimplecoindeck.ui.dialogs.AddCoinDialog
-import com.example.mysimplecoindeck.ui.dialogs.AddDialogListener
+import com.google.android.material.dialog.MaterialDialogs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.math.RoundingMode
@@ -61,12 +63,18 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
             }
         }
         binding.fabAddCoin.setOnClickListener {
-            AddCoinDialog(context,
-                        object: AddDialogListener {
-                            override fun onAddButtonClicked(item: CoinPortfolioEntity) {
-                                viewModel.insertCoinToPortfolio(item)
-                            }
-                        },coin).show()
+            context?.let { it1 ->
+                MaterialDialog(it1).show {
+                    title(text = "Add Coin to portfolio")
+                    input(hint = "Amount") { dialog, text ->
+                        viewModel.insertCoinToPortfolio(CoinPortfolioEntity(
+                                coin.uuid,coin.name,coin.iconUrl,coin.price,coin.change,text.toString()
+                        ))
+                    }
+                    positiveButton(R.string.submit)
+                    negativeButton(text = "Cancel")
+                }
             }
+        }
     }
 }

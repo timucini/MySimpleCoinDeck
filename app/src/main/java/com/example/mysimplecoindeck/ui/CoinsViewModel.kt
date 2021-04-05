@@ -39,11 +39,11 @@ class CoinsViewModel @Inject constructor(
             repository.coinsList
                     .catch { exception ->
                         _uiState.value = CoinsListUiState.Error(exception)
-                        Log.d("API-Test","error while call api: ${exception.message}")
+                        Log.d("GetCoinsList","error while call api: ${exception.message}")
                     }
                     .collect{ coinsResponse ->
                         _uiState.value = CoinsListUiState.Success(coinsResponse)
-                        Log.d("API-Test passed",coinsResponse.body()?.status.toString())
+                        Log.d("GetCoinsList passed",coinsResponse.body()?.status.toString())
                     }
         }
     }
@@ -53,11 +53,11 @@ class CoinsViewModel @Inject constructor(
             repository.coinDetail(uuid)
                     .catch { exception ->
                         _uiCoinDetailState.value = CoinDetailUiState.Error(exception)
-                        Log.d("API-Test","error while call api: ${exception.message}")
+                        Log.d("GetCoinDetails","error while call api: ${exception.message}")
                     }
                     .collect{ coinDetail ->
                         _uiCoinDetailState.value = CoinDetailUiState.Success(coinDetail)
-                        Log.d("API-Test passed",coinDetail.body()?.status.toString())
+                        Log.d("GetCoinDetails passed",coinDetail.body()?.status.toString())
                     }
         }
     }
@@ -67,11 +67,11 @@ class CoinsViewModel @Inject constructor(
             repository.getSearchSuggestions(query)
                 .catch { exception ->
                     _uiSearchState.value = SearchUiState.Error(exception)
-                    Log.d("API-Test","error while call api: ${exception.message}")
+                    Log.d("GetSuggestions","error while call api: ${exception.message}")
                 }
                 .collect{ response ->
                     _uiSearchState.value = SearchUiState.Success(response)
-                    Log.d("API-Test passed",response.body()?.status.toString())
+                    Log.d("GetSuggestions passed",response.body()?.status.toString())
                 }
         }
     }
@@ -85,14 +85,15 @@ class CoinsViewModel @Inject constructor(
                     }
                     .collect{ response ->
                         _uiPortfolioState.value = PortfolioUiState.Success(response)
-                        Log.d("Portfolio-DB:", "Successfully got portfolio")
+                        Log.d("Portfolio-DB passed:", "Successfully got portfolio")
                     }
         }
     }
 
     fun insertCoinToPortfolio(coinPortfolioEntity: CoinPortfolioEntity) {
+        Log.d("Insert Coin in Portfolio:", "Try to insert Coin in Portfolio")
         viewModelScope.launch {
-            repository.upsert(coinPortfolioEntity)
+                repository.upsert(coinPortfolioEntity)
         }
     }
 

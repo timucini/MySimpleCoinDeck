@@ -34,6 +34,6 @@ object AppModule {
                     appContext.applicationContext,
                     PortfolioDatabase::class.java,
                     "portfolio_db.db"
-            ).build()
+            ).allowMainThreadQueries().build()
 }
 

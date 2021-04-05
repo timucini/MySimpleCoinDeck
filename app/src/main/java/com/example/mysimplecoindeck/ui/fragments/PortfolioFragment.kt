@@ -1,6 +1,7 @@
 package com.example.mysimplecoindeck.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -24,7 +25,6 @@ class PortfolioFragment: Fragment(R.layout.fragment_portfolio) {
     private val viewModel: CoinsViewModel by viewModels()
     private lateinit var binding: FragmentPortfolioBinding
     private lateinit var portfolioAdapter: PortfolioAdapter
-    private lateinit var coinPortfolioList: MutableList<CoinPortfolioEntity>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,36 +36,7 @@ class PortfolioFragment: Fragment(R.layout.fragment_portfolio) {
                 when(it) {
                     is CoinsViewModel.PortfolioUiState.Success -> {
                         it.portfolio.let { coinsPortfolioResponse ->
-                            coinsPortfolioResponse.forEach { coinPortfolioEntity ->
-                                viewModel.getCoinDetails(coinPortfolioEntity.uuid)
-                                viewModel.uiCoinDetailState.collect { coinDetailUiState ->
-                                    when(coinDetailUiState) {
-                                        is CoinsViewModel.CoinDetailUiState.Success -> {
-                                            with (coinDetailUiState.coins.body()?.data?.coin) {
-                                                if (this != null) {
-                                                    coinPortfolioList.add(
-                                                            CoinPortfolioEntity(
-                                                                    uuid,
-                                                                    name,
-                                                                    iconUrl,
-                                                                    price,
-                                                                    change,
-                                                                    coinPortfolioEntity.amount
-                                                            )
-                                                    )
-                                                }
-                                            }
-                                        }
-                                        is  CoinsViewModel.CoinDetailUiState.Error -> {
-                                            coinDetailUiState.exception?.let { message ->
-                                                Toast.makeText(activity,"An error occured: $message", Toast.LENGTH_LONG ).show()
-                                            }
-                                        }
-                                        else -> Unit
-                                    }
-                                }
-                            }
-
+                            portfolioAdapter.differ.submitList(coinsPortfolioResponse)
                         }
                     }
                     is CoinsViewModel.PortfolioUiState.Error -> {
@@ -77,9 +48,7 @@ class PortfolioFragment: Fragment(R.layout.fragment_portfolio) {
                 }
             }
         }
-
     }
-
 
     private fun setupRecyclerView() {
         portfolioAdapter = PortfolioAdapter()

@@ -21,5 +21,5 @@ interface CoinRepository {
 
     suspend fun delete(portfolioEntity: CoinPortfolioEntity)
 
-    fun getPortfolio(): Flow<List<CoinPortfolioEntity>>
+    suspend fun getPortfolio(): Flow<List<CoinPortfolioEntity>>
 }
