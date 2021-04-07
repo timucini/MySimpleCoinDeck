@@ -38,8 +38,8 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
         val coin = differ.currentList[position]
         holder.itemView.apply {
             with(holder.binding) {
-                tvSearchCoinName.text = coin.name
-                ivSearchIcon.load(coin.iconUrl)
+                SearchCoinName.text = coin.name
+                SearchIcon.load(coin.iconUrl)
             }
             setOnClickListener {
                 onItemClickListener?.let { it(coin.uuid) }

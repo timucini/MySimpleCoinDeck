@@ -1,14 +1,10 @@
 package com.example.mysimplecoindeck.di
 
-import android.content.Context
-import androidx.room.Room
-import com.example.mysimplecoindeck.db.PortfolioDatabase
 import com.example.mysimplecoindeck.repository.CoinRepository
 import com.example.mysimplecoindeck.repository.CoinRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -21,13 +17,5 @@ object AppModule {
     fun provideCoinRepository(coinRepositoryImpl: CoinRepositoryImpl): CoinRepository =
         coinRepositoryImpl
 
-    @Singleton
-    @Provides
-    fun providePortfolioDatabase(@ApplicationContext appContext: Context) =
-            Room.databaseBuilder(
-                    appContext.applicationContext,
-                    PortfolioDatabase::class.java,
-                    "portfolio_db.db"
-            ).build()
 }
 

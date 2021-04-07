@@ -11,18 +11,18 @@ import retrofit2.http.Query
 interface CoinApi {
 
     @GET("coins")
-    suspend fun getCoinsList(): Response<CoinsResponse>
+    suspend fun getCoinsList(): CoinsResponse
 
 
     @GET("coin/{id}")
     suspend fun getCoin(
         @Path("id")
         uuid: String
-    ): Response<CoinResponse>
+    ): CoinResponse
 
     @GET("search-suggestions")
     suspend fun getSearchSuggestions(
         @Query("query")
         searchQuery: String
-    ): Response<SearchResponse>
+    ): SearchResponse
 }

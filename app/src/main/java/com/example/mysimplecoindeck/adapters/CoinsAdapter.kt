@@ -46,7 +46,7 @@ class CoinsAdapter: RecyclerView.Adapter<CoinsAdapter.CoinsViewHolder>() {
                 tvChange.text = coin.change.toBigDecimal().setScale(2,RoundingMode.HALF_UP).toString() + "%"
                 tvChange.setTextColor(if (coin.change.toDouble() >= 0 ) Color.GREEN else Color.RED)
                 tvSymbol.text = coin.symbol
-                ivIcon.load(coin.iconUrl)
+                Icon.load(coin.iconUrl)
             }
             setOnClickListener {
                 onItemClickListener?.let { it(coin.uuid) }

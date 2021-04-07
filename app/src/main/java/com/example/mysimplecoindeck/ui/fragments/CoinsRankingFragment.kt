@@ -34,7 +34,7 @@ class CoinsRankingFragment : Fragment(R.layout.fragment_coins_ranking) {
                 when(it) {
                     is CoinsViewModel.CoinsListUiState.Success -> {
                         it.coins.let { coinsResponse ->
-                            coinsAdapter.differ.submitList(coinsResponse.body()?.data?.coins?.sortedBy { coin -> coin.rank })
+                            coinsAdapter.differ.submitList(coinsResponse.data.coins.sortedBy { coin -> coin.rank })
                         }
                     }
                     is CoinsViewModel.CoinsListUiState.Error -> {

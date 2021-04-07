@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/coins_news_graph"
-    app:startDestination="@id/CoinRankingFragment">
+    app:startDestination="@id/coinRankingFragment">
 
     <fragment
-        android:id="@+id/CoinRankingFragment"
+        android:id="@+id/coinRankingFragment"
         android:name="com.example.mysimplecoindeck.ui.fragments.CoinsRankingFragment"
         android:label="CoinRankingFragment">
 
         <action
             android:id="@+id/action_CoinRankingFragment_to_SingleCoinFragment"
-            app:destination="@id/SingleCoinFragment" />
+            app:destination="@id/singleCoinFragment" />
         <action
             android:id="@+id/action_CoinRankingFragment_to_SearchCoinFragment"
-            app:destination="@id/SearchCoinFragment" />
+            app:destination="@id/searchCoinFragment" />
         <action
             android:id="@+id/action_CoinRankingFragment_to_PortfolioFragment"
-            app:destination="@id/PortfolioFragment" />
+            app:destination="@id/portfolioFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/SingleCoinFragment"
+        android:id="@+id/singleCoinFragment"
         android:name="com.example.mysimplecoindeck.ui.fragments.SingleCoinFragment"
         android:label="SingleCoinFragment">
         <argument
@@ -29,24 +29,24 @@
     </fragment>
 
     <fragment
-        android:id="@+id/SearchCoinFragment"
+        android:id="@+id/searchCoinFragment"
         android:name="com.example.mysimplecoindeck.ui.fragments.SearchCoinFragment"
         android:label="SearchCoinFragment"
         >
         <action
             android:id="@+id/action_SearchCoinFragment_to_SingleCoinFragment"
-            app:destination="@id/SingleCoinFragment" />
+            app:destination="@id/singleCoinFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/PortfolioFragment"
+        android:id="@+id/portfolioFragment"
         android:name="com.example.mysimplecoindeck.ui.fragments.PortfolioFragment"
         android:label="PortfolioFragment">
         <action
             android:id="@+id/action_PortfolioFragment_to_SingleCoinFragment"
-            app:destination="@id/SingleCoinFragment" />
+            app:destination="@id/singleCoinFragment" />
         <action
             android:id="@+id/action_PortfolioFragment_to_SearchCoinFragment"
-            app:destination="@id/SearchCoinFragment" />
+            app:destination="@id/searchCoinFragment" />
     </fragment>
 </navigation>

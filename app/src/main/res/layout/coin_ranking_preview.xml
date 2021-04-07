@@ -9,7 +9,7 @@
 
 
     <ImageView
-        android:id="@+id/ivIcon"
+        android:id="@+id/Icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginStart="8dp"
@@ -25,11 +25,11 @@
         android:layout_height="22dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Coin Name"
+        tools:text="Coin Name"
         android:textColor="#03A9F4"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/ivIcon"
+        app:layout_constraintStart_toEndOf="@+id/Icon"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -37,11 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Short"
+        tools:text="Short"
         android:textSize="14sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivIcon"
+        app:layout_constraintStart_toEndOf="@+id/Icon"
         app:layout_constraintTop_toBottomOf="@+id/tvCoinName" />
 
     <TextView
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Coin Price"
+        tools:text="Coin Price"
         android:textColor="#03A9F4"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Coin Market Cap"
+        tools:text="Coin Market Cap"
         android:textSize="14sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"

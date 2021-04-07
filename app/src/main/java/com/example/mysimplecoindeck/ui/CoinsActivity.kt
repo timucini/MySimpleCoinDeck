@@ -29,7 +29,7 @@ class CoinsActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when(destination.id) {
-                R.id.SingleCoinFragment -> hideBottomNav()
+                R.id.singleCoinFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }

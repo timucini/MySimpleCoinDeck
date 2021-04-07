@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/CoinRankingFragment"
-        android:title="Coin Rankings"
-        android:icon="@drawable/ic_coin_rankings" />
+    <item android:id="@+id/coinRankingFragment"
+        android:title="@string/ranking_fragment_title"
+        android:icon="@drawable/ic_ranking" />
 
-    <item android:id="@+id/SearchCoinFragment"
-        android:title="Search Coins"
-        android:icon="@drawable/ic_search_foreground"
+    <item android:id="@+id/searchCoinFragment"
+        android:title="@string/search_fragment_title"
+        android:icon="@drawable/ic_search"
         />
 
-    <item android:id="@+id/PortfolioFragment"
-        android:title="Portfolio"
-        android:icon="@drawable/ic_portfolio_foreground" />
+    <item android:id="@+id/portfolioFragment"
+        android:title="@string/portfolio_fragment_title"
+        android:icon="@drawable/ic_portfolio" />
 
 </menu>

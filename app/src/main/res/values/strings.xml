@@ -3,4 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="submit">Add</string>
+    <string name="search_fragment_title">Search Coin</string>
+    <string name="ranking_fragment_title">Coins Ranking</string>
+    <string name="portfolio_fragment_title">Your Portfolio</string>
 </resources>

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.mysimplecoindeck.models.CoinsResponse
 import com.example.mysimplecoindeck.models.dbModels.CoinPortfolioEntity
 import com.example.mysimplecoindeck.models.searchSuggestions.SearchResponse
+import com.example.mysimplecoindeck.models.singleCoin.Coin
 import com.example.mysimplecoindeck.models.singleCoin.CoinResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,7 +44,7 @@ class CoinsViewModel @Inject constructor(
                     }
                     .collect{ coinsResponse ->
                         _uiState.value = CoinsListUiState.Success(coinsResponse)
-                        Log.d("GetCoinsList passed",coinsResponse.body()?.status.toString())
+                        Log.d("GetCoinsList passed",coinsResponse.status)
                     }
         }
     }
@@ -57,7 +58,7 @@ class CoinsViewModel @Inject constructor(
                     }
                     .collect{ coinDetail ->
                         _uiCoinDetailState.value = CoinDetailUiState.Success(coinDetail)
-                        Log.d("GetCoinDetails passed",coinDetail.body()?.status.toString())
+                        Log.d("GetCoinDetails passed",coinDetail.status)
                     }
         }
     }
@@ -71,7 +72,7 @@ class CoinsViewModel @Inject constructor(
                 }
                 .collect{ response ->
                     _uiSearchState.value = SearchUiState.Success(response)
-                    Log.d("GetSuggestions passed",response.body()?.status.toString())
+                    Log.d("GetSuggestions passed",response.status)
                 }
         }
     }
@@ -90,34 +91,27 @@ class CoinsViewModel @Inject constructor(
         }
     }
 
-    fun insertCoinToPortfolio(coinPortfolioEntity: CoinPortfolioEntity) {
+    fun insertCoinToPortfolio(coin: Coin, amount: String) {
         Log.d("Insert Coin in Portfolio:", "Try to insert Coin in Portfolio")
         viewModelScope.launch {
-                repository.upsert(coinPortfolioEntity)
+                repository.upsert(coin,amount)
         }
     }
-
-    fun deleteCoinFromPortfolio(coinPortfolioEntity: CoinPortfolioEntity) {
-        viewModelScope.launch {
-            repository.delete(coinPortfolioEntity)
-        }
-    }
-
 
     sealed class CoinsListUiState {
-        data class Success(val coins: Response<CoinsResponse>): CoinsListUiState()
+        data class Success(val coins: CoinsResponse): CoinsListUiState()
         data class Error(val exception: Throwable): CoinsListUiState()
         object Empty : CoinsListUiState()
     }
 
     sealed class CoinDetailUiState {
-        data class Success(val coins: Response<CoinResponse>): CoinDetailUiState()
+        data class Success(val coins: CoinResponse): CoinDetailUiState()
         data class Error(val exception: Throwable): CoinDetailUiState()
         object Empty : CoinDetailUiState()
     }
 
     sealed class SearchUiState {
-        data class Success(val coinSuggestions: Response<SearchResponse>): SearchUiState()
+        data class Success(val coinSuggestions: SearchResponse): SearchUiState()
         data class Error(val exception: Throwable): SearchUiState()
         object Empty : SearchUiState()
     }

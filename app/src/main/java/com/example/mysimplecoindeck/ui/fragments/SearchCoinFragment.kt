@@ -24,26 +24,24 @@ class SearchCoinFragment: Fragment(R.layout.fragment_search_coin) {
     private val viewModel: CoinsViewModel by viewModels()
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var binding: FragmentSearchCoinBinding
-    private var uiSearchStateJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchCoinBinding.bind(view)
         setupRecyclerView()
 
-        binding.etSeachText.addTextChangedListener { editable ->
+        binding.etSearchText.addTextChangedListener { editable ->
             if (editable.toString().isNotEmpty()) {
                 viewModel.getSuggestedCoins(editable.toString())
             }
         }
 
-        uiSearchStateJob = lifecycleScope.launchWhenStarted {
-            delay(SEARCH_QUERY_TIME_DELAY)
+        lifecycleScope.launchWhenStarted {
             viewModel.uiSearchState.collect {
                 when(it) {
                     is CoinsViewModel.SearchUiState.Success -> {
                         it.coinSuggestions.let { coinsResponse ->
-                            searchAdapter.differ.submitList(coinsResponse.body()?.data?.coins)
+                            searchAdapter.differ.submitList(coinsResponse.data.coins)
                         }
                     }
                     is CoinsViewModel.SearchUiState.Error -> {
@@ -61,11 +59,6 @@ class SearchCoinFragment: Fragment(R.layout.fragment_search_coin) {
             )
 
         }
-    }
-
-    override fun onStop() {
-        uiSearchStateJob?.cancel()
-        super.onStop()
     }
 
     private fun setupRecyclerView() {

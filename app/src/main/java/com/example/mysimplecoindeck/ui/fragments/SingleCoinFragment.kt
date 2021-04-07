@@ -11,7 +11,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.example.mysimplecoindeck.R
 import com.example.mysimplecoindeck.databinding.FragmentCoinDetailBinding
-import com.example.mysimplecoindeck.models.dbModels.CoinPortfolioEntity
 import com.example.mysimplecoindeck.models.singleCoin.Coin
 import com.example.mysimplecoindeck.ui.CoinsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,11 +35,9 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
                 when(it) {
                     is CoinsViewModel.CoinDetailUiState.Success -> {
                         it.coins.let { coinsDetailResponse ->
-                             coinsDetailResponse.body()?.data?.coin.let {
+                             coinsDetailResponse.data.coin.let {
                                  coinResponse ->
-                                 if (coinResponse != null) {
-                                     coin = coinResponse
-                                 }
+                                 coin = coinResponse
                                      with(binding) {
                                          tvCoinDetailTitle.text = coin.name
                                          tvCoinDetailPrice.text = coin.price.toBigDecimal().setScale(2, RoundingMode.HALF_UP).toString()
@@ -66,10 +63,8 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
             context?.let { it1 ->
                 MaterialDialog(it1).show {
                     title(text = "Add Coin to portfolio")
-                    input(hint = "Amount") { dialog, text ->
-                        viewModel.insertCoinToPortfolio(CoinPortfolioEntity(
-                                coin.uuid,coin.name,coin.iconUrl,coin.price,coin.change,text.toString()
-                        ))
+                    input(hint = "Amount") { _, text ->
+                        viewModel.insertCoinToPortfolio(coin,text.toString())
                     }
                     positiveButton(R.string.submit)
                     negativeButton(text = "Cancel")
