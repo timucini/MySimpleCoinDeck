@@ -13,16 +13,14 @@ import com.example.mysimplecoindeck.R
 import com.example.mysimplecoindeck.adapters.SearchAdapter
 import com.example.mysimplecoindeck.databinding.FragmentSearchCoinBinding
 import com.example.mysimplecoindeck.ui.CoinsViewModel
-import com.example.mysimplecoindeck.utils.Constants.Companion.SEARCH_QUERY_TIME_DELAY
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class SearchCoinFragment: Fragment(R.layout.fragment_search_coin) {
-    private val viewModel: CoinsViewModel by viewModels()
-    private lateinit var searchAdapter: SearchAdapter
+class SearchCoinFragment constructor(
+        val searchAdapter: SearchAdapter
+): Fragment(R.layout.fragment_search_coin) {
+    val viewModel: CoinsViewModel by viewModels()
     private lateinit var binding: FragmentSearchCoinBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,7 +60,6 @@ class SearchCoinFragment: Fragment(R.layout.fragment_search_coin) {
     }
 
     private fun setupRecyclerView() {
-        searchAdapter = SearchAdapter()
         binding.rvSearch.apply {
             adapter = searchAdapter
             layoutManager = LinearLayoutManager(activity)

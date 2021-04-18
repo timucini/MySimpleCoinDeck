@@ -14,23 +14,21 @@ import com.example.mysimplecoindeck.databinding.FragmentCoinDetailBinding
 import com.example.mysimplecoindeck.models.singleCoin.Coin
 import com.example.mysimplecoindeck.ui.CoinsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import java.math.RoundingMode
 
 @AndroidEntryPoint
 class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
-    private val viewModel: CoinsViewModel by viewModels()
+    val viewModel: CoinsViewModel by viewModels()
     private lateinit var binding: FragmentCoinDetailBinding
-    private val args: SingleCoinFragmentArgs by navArgs()
+    val args: SingleCoinFragmentArgs by navArgs()
     private lateinit var coin: Coin
-    private var uiDetailStateJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCoinDetailBinding.bind(view)
         viewModel.getCoinDetails(args.Uuid)
-        uiDetailStateJob = lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenStarted {
             viewModel.uiCoinDetailState.collect {
                 when(it) {
                     is CoinsViewModel.CoinDetailUiState.Success -> {
@@ -64,7 +62,7 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
                 MaterialDialog(it1).show {
                     title(text = "Add Coin to portfolio")
                     input(hint = "Amount") { _, text ->
-                        viewModel.insertCoinToPortfolio(coin,text.toString())
+                        viewModel.insertCoin(coin,text.toString())
                     }
                     positiveButton(R.string.submit)
                     negativeButton(text = "Cancel")
@@ -73,8 +71,4 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
         }
     }
 
-    override fun onStop() {
-        uiDetailStateJob?.cancel()
-        super.onStop()
-    }
 }

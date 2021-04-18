@@ -20,7 +20,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.mysimplecoindeck.HiltTestRunner"
     }
 
     buildTypes {
@@ -92,12 +92,22 @@ dependencies {
 
     // Unit Tests
     testImplementation(Dependencies.junit)
+    testImplementation(Dependencies.AndroidX.coreTesting)
+    testImplementation(Dependencies.truth)
+    testImplementation(Dependencies.Mockito.kotlin)
 
     // Instrumented Tests
+    androidTestImplementation(Dependencies.junit)
     androidTestImplementation(Dependencies.AndroidX.Test.core)
     androidTestImplementation(Dependencies.AndroidX.Test.junit)
+    androidTestImplementation(Dependencies.truth)
+    androidTestImplementation(Dependencies.AndroidX.coreTesting)
     androidTestImplementation(Dependencies.Espresso.core)
     androidTestImplementation(Dependencies.Espresso.contrib)
+    androidTestImplementation(Dependencies.Hilt.testing)
+    kaptAndroidTest(Dependencies.Hilt.androidCompiler)
+    debugImplementation(Dependencies.AndroidX.fragmentTesting)
+    androidTestImplementation(Dependencies.Mockito.android)
 
     //Coil - Image Loading
     implementation(Dependencies.Coil.coil)

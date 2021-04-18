@@ -13,23 +13,23 @@ import com.example.mysimplecoindeck.adapters.CoinsAdapter
 import com.example.mysimplecoindeck.databinding.FragmentCoinsRankingBinding
 import com.example.mysimplecoindeck.ui.CoinsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 
-@AndroidEntryPoint
-class CoinsRankingFragment : Fragment(R.layout.fragment_coins_ranking) {
 
-    private val viewModel: CoinsViewModel by viewModels()
-    private lateinit var coinsAdapter: CoinsAdapter
+@AndroidEntryPoint
+class CoinsRankingFragment constructor(
+        val coinsAdapter: CoinsAdapter
+) : Fragment(R.layout.fragment_coins_ranking) {
+
+    val viewModel: CoinsViewModel by viewModels()
     private lateinit var binding: FragmentCoinsRankingBinding
-    private var uiStateJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCoinsRankingBinding.bind(view)
         setupRecyclerView()
 
-        uiStateJob = lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenStarted {
             viewModel.uiState.collect {
                 when(it) {
                     is CoinsViewModel.CoinsListUiState.Success -> {
@@ -53,13 +53,7 @@ class CoinsRankingFragment : Fragment(R.layout.fragment_coins_ranking) {
         }
     }
 
-    override fun onStop() {
-        uiStateJob?.cancel()
-        super.onStop()
-    }
-
     private fun setupRecyclerView() {
-        coinsAdapter = CoinsAdapter()
         binding.rvCoinsRanking.apply {
             adapter = coinsAdapter
             layoutManager = LinearLayoutManager(activity)
