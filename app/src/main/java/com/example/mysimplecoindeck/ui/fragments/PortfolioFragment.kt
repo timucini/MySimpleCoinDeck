@@ -16,9 +16,9 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class PortfolioFragment constructor(
-        val portfolioAdapter: PortfolioAdapter
+    private val portfolioAdapter: PortfolioAdapter,
+    private val viewModel: CoinsViewModel
 ) : Fragment(R.layout.fragment_portfolio) {
-    val viewModel: CoinsViewModel by viewModels()
     private lateinit var binding: FragmentPortfolioBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

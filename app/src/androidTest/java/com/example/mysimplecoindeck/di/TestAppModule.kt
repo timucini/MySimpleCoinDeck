@@ -3,6 +3,8 @@ package com.example.mysimplecoindeck.di
 import android.content.Context
 import androidx.room.Room
 import com.example.mysimplecoindeck.db.PortfolioDatabase
+import com.example.mysimplecoindeck.repository.FakeAndroidCoinRepositoryImpl
+import com.example.mysimplecoindeck.ui.CoinsViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +23,7 @@ object TestAppModule {
             .allowMainThreadQueries()
             .build()
 
+    @Provides
+    @Named("viewModel")
+    fun provideFakeViewModel(coinRepositoryImpl: FakeAndroidCoinRepositoryImpl) = CoinsViewModel(coinRepositoryImpl)
 }

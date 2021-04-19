@@ -18,9 +18,9 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class SearchCoinFragment constructor(
-        val searchAdapter: SearchAdapter
+    val searchAdapter: SearchAdapter,
+    private val viewModel: CoinsViewModel
 ): Fragment(R.layout.fragment_search_coin) {
-    val viewModel: CoinsViewModel by viewModels()
     private lateinit var binding: FragmentSearchCoinBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,6 +43,7 @@ class SearchCoinFragment constructor(
                         }
                     }
                     is CoinsViewModel.SearchUiState.Error -> {
+                        binding.etSearchText.setText("")
                         it.exception.let { message ->
                             Toast.makeText(activity,"An error occured: $message", Toast.LENGTH_LONG ).show()
                         }

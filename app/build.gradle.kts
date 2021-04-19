@@ -102,6 +102,7 @@ dependencies {
     androidTestImplementation(Dependencies.AndroidX.Test.junit)
     androidTestImplementation(Dependencies.truth)
     androidTestImplementation(Dependencies.AndroidX.coreTesting)
+    androidTestImplementation(Dependencies.AndroidX.navigationTesting)
     androidTestImplementation(Dependencies.Espresso.core)
     androidTestImplementation(Dependencies.Espresso.contrib)
     androidTestImplementation(Dependencies.Hilt.testing)

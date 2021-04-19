@@ -5,6 +5,7 @@ import com.example.mysimplecoindeck.adapters.PortfolioAdapter
 import com.example.mysimplecoindeck.adapters.SearchAdapter
 import com.example.mysimplecoindeck.repository.CoinRepository
 import com.example.mysimplecoindeck.repository.CoinRepositoryImpl
+import com.example.mysimplecoindeck.ui.CoinsViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +38,10 @@ object AppModule {
     @Singleton
     @Provides
     fun provideDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
+    @Singleton
+    @Provides
+    fun provideViewModel(coinRepository: CoinRepository): CoinsViewModel = CoinsViewModel(coinRepository)
 
 }
 

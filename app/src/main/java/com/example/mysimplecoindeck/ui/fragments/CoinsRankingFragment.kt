@@ -18,10 +18,10 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class CoinsRankingFragment constructor(
-        val coinsAdapter: CoinsAdapter
+    val coinsAdapter: CoinsAdapter,
+    private val viewModel: CoinsViewModel
 ) : Fragment(R.layout.fragment_coins_ranking) {
 
-    val viewModel: CoinsViewModel by viewModels()
     private lateinit var binding: FragmentCoinsRankingBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
