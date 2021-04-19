@@ -12,22 +12,21 @@ import com.example.mysimplecoindeck.adapters.PortfolioAdapter
 import com.example.mysimplecoindeck.databinding.FragmentPortfolioBinding
 import com.example.mysimplecoindeck.ui.CoinsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class PortfolioFragment: Fragment(R.layout.fragment_portfolio) {
-    private val viewModel: CoinsViewModel by viewModels()
+class PortfolioFragment constructor(
+    private val portfolioAdapter: PortfolioAdapter,
+    private val viewModel: CoinsViewModel
+) : Fragment(R.layout.fragment_portfolio) {
     private lateinit var binding: FragmentPortfolioBinding
-    private lateinit var portfolioAdapter: PortfolioAdapter
-    private var uiPortfolioStateJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPortfolioBinding.bind(view)
         setupRecyclerView()
         viewModel.getPortfolio()
-        uiPortfolioStateJob = lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenStarted {
             viewModel.uiPortfolioState.collect {
                 when(it) {
                     is CoinsViewModel.PortfolioUiState.Success -> {
@@ -46,13 +45,7 @@ class PortfolioFragment: Fragment(R.layout.fragment_portfolio) {
         }
     }
 
-    override fun onStop() {
-        uiPortfolioStateJob?.cancel()
-        super.onStop()
-    }
-
     private fun setupRecyclerView() {
-        portfolioAdapter = PortfolioAdapter()
         binding.rvPortfolioList.apply {
             adapter = portfolioAdapter
             layoutManager = LinearLayoutManager(activity)

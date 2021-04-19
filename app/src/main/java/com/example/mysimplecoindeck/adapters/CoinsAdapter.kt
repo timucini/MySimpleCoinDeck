@@ -27,6 +27,10 @@ class CoinsAdapter: RecyclerView.Adapter<CoinsAdapter.CoinsViewHolder>() {
 
     val differ = AsyncListDiffer(this,differCallback)
 
+    var coins: List<Coin>
+    get() = differ.currentList
+    set(value) = differ.submitList(value)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinsViewHolder {
         return CoinsViewHolder(
                 CoinRankingPreviewBinding.inflate(
@@ -38,7 +42,7 @@ class CoinsAdapter: RecyclerView.Adapter<CoinsAdapter.CoinsViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CoinsViewHolder, position: Int) {
-        val coin = differ.currentList[position]
+        val coin = coins[position]
         holder.itemView.apply {
             with(holder.binding) {
                 tvCoinName.text = coin.name
@@ -55,7 +59,7 @@ class CoinsAdapter: RecyclerView.Adapter<CoinsAdapter.CoinsViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return coins.size
     }
 
     private var onItemClickListener: ((String) -> Unit)? = null

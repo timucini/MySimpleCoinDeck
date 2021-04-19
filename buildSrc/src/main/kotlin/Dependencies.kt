@@ -12,6 +12,7 @@ object Dependencies {
             "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
         const val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTesting}"
         const val fragment = "androidx.fragment:fragment-ktx:${Versions.fragment}"
+        const val fragmentTesting = "androidx.fragment:fragment-testing:${Versions.fragment}"
         const val lifecycleRuntime =
             "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
         const val lifecycleViewmodel =
@@ -42,6 +43,7 @@ object Dependencies {
         const val core = "com.google.dagger:hilt-android:${Versions.hilt}"
         const val compiler = "com.google.dagger:hilt-compiler:${Versions.hilt}"
         const val testing = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
+        const val androidCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
     }
 
 
@@ -81,6 +83,12 @@ object Dependencies {
     object Coil {
         const val coil = "io.coil-kt:coil:${Versions.coil}"
         const val coilSvg = "io.coil-kt:coil-svg:${Versions.coilSVG}"
+    }
+
+    object Mockito {
+        const val core = "org.mockito:mockito-core:${Versions.mockito}"
+        const val android = "org.mockito:mockito-android:${Versions.mockito}"
+        const val kotlin = "org.mockito.kotlin:mockito-kotlin:${Versions.mockitoKotlin}"
     }
 
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"

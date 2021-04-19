@@ -8,8 +8,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.mysimplecoindeck.R
 import com.example.mysimplecoindeck.databinding.ActivityMainBinding
+import com.example.mysimplecoindeck.ui.fragments.CoinsFragmentFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -18,12 +20,12 @@ class CoinsActivity : AppCompatActivity() {
     private val viewModel: CoinsViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel
-
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navController = findNavController(R.id.newNavHostFragment)
 

@@ -3,8 +3,7 @@ package com.example.mysimplecoindeck.utils
 import com.example.mysimplecoindeck.models.dbModels.CoinPortfolioEntity
 import com.example.mysimplecoindeck.models.singleCoin.Coin
 
-class Mapper {
-    companion object{
+object Mapper {
         fun Coin.mapToInsertEntity(amount: String): CoinPortfolioEntity {
             return CoinPortfolioEntity(
                     uuid = this.uuid,
@@ -14,5 +13,4 @@ class Mapper {
                     change = this.change,
                     amount = amount)
         }
-    }
 }
