@@ -25,7 +25,8 @@
         android:label="SingleCoinFragment">
         <argument
             android:name="Uuid"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment

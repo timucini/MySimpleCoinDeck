@@ -14,23 +14,22 @@ import com.example.mysimplecoindeck.databinding.FragmentCoinDetailBinding
 import com.example.mysimplecoindeck.models.singleCoin.Coin
 import com.example.mysimplecoindeck.ui.CoinsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import java.math.RoundingMode
 
 @AndroidEntryPoint
-class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
-    private val viewModel: CoinsViewModel by viewModels()
+class SingleCoinFragment constructor(
+    var viewModel: CoinsViewModel
+): Fragment(R.layout.fragment_coin_detail) {
     private lateinit var binding: FragmentCoinDetailBinding
     private val args: SingleCoinFragmentArgs by navArgs()
-    private lateinit var coin: Coin
-    private var uiDetailStateJob: Job? = null
+    lateinit var coin: Coin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCoinDetailBinding.bind(view)
-        viewModel.getCoinDetails(args.Uuid)
-        uiDetailStateJob = lifecycleScope.launchWhenStarted {
+        args.Uuid?.let { viewModel.getCoinDetails(it) }
+        lifecycleScope.launchWhenStarted {
             viewModel.uiCoinDetailState.collect {
                 when(it) {
                     is CoinsViewModel.CoinDetailUiState.Success -> {
@@ -63,18 +62,17 @@ class SingleCoinFragment: Fragment(R.layout.fragment_coin_detail) {
             context?.let { it1 ->
                 MaterialDialog(it1).show {
                     title(text = "Add Coin to portfolio")
-                    input(hint = "Amount") { _, text ->
-                        viewModel.insertCoinToPortfolio(coin,text.toString())
+                    input(hint = "Amount", allowEmpty = false) { _, text ->
+                        addCoin(text.toString())
                     }
                     positiveButton(R.string.submit)
-                    negativeButton(text = "Cancel")
+                    negativeButton(R.string.cancel)
                 }
             }
         }
     }
-
-    override fun onStop() {
-        uiDetailStateJob?.cancel()
-        super.onStop()
+    private fun addCoin(amount: String) {
+        viewModel.insertCoin(coin,amount)
     }
+
 }

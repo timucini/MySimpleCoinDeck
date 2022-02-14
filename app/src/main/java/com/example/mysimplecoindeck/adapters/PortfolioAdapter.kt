@@ -26,6 +26,10 @@ class PortfolioAdapter: RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolde
     }
     val differ = AsyncListDiffer(this,differCallback)
 
+    var coins: List<CoinPortfolioEntity>
+        get() = differ.currentList
+        set(value) = differ.submitList(value)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PortfolioViewHolder {
         return PortfolioViewHolder(
                 PortfolioCoinPreviewBinding.inflate(
@@ -37,7 +41,7 @@ class PortfolioAdapter: RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolde
     }
 
     override fun onBindViewHolder(holder: PortfolioViewHolder, position: Int) {
-        val coin = differ.currentList[position]
+        val coin = coins[position]
         holder.itemView.apply {
             with(holder.binding) {
                 ivCoinLogo.load(coin.iconUrl)
@@ -52,6 +56,6 @@ class PortfolioAdapter: RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolde
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return coins.size
     }
 }

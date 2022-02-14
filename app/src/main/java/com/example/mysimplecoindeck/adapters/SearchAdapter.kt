@@ -24,6 +24,10 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     }
     val differ = AsyncListDiffer(this,differCallback)
 
+    var coins: List<Coin>
+        get() = differ.currentList
+        set(value) = differ.submitList(value)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
             SearchCoinPreviewBinding.inflate(
@@ -35,7 +39,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-        val coin = differ.currentList[position]
+        val coin = coins[position]
         holder.itemView.apply {
             with(holder.binding) {
                 SearchCoinName.text = coin.name
@@ -48,7 +52,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return coins.size
     }
 
     private var onItemClickListener: ((String) -> Unit)? = null

@@ -50,5 +50,9 @@ object Versions {
     // Material Dialogs
     const val materialDialogs = "3.3.0"
 
+    // Mockito
+    const val mockito = "2.21.0"
+    const val mockitoKotlin = "2.2.10"
+
 
 }
